@@ -20,6 +20,11 @@ export default {
         sectionsColor: ['#264653', '#f4a261', '#db3a34'],
       },
     }
+  },
+  methods : {
+    scrollDown () {
+      this.$refs.fullpage.api.moveSectionDown()
+    }
   }
 }
 </script>
@@ -28,9 +33,9 @@ export default {
   <div class="absolute top-0 z-10 w-full">
     <PageHeader/>
   </div>
-  <full-page :options="options" id="fullpage" ref="fullpage">
+  <full-page :options="options" ref="fullpage">
     <div class="section">
-      <LandingPageOne />
+      <LandingPageOne :scrollHandle = "scrollDown"/>
     </div>
     <div class="section">
       <LandingPageTwo />
