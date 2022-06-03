@@ -6,4 +6,17 @@
   .header-text {
     @apply text-white text-2xl tracking-wide
   }
+  .form-label {
+    @apply text-white text-lg;
+  }
+
+  .form-inner {
+    @apply max-w-md border border-gray-400 rounded-lg mb-1 overflow-hidden focus-within:border-blue-500 mt-2
+  }
+  .form-input {
+    @apply w-full px-2  h-8 border-none text-base text-gray-700 rounded-lg placeholder-gray-400
+  }
+  .form-btn {
+    @apply bg-gray-500 text-white px-2 py-1 rounded-md
+  }
 }
