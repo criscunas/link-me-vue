@@ -2,13 +2,14 @@
 import LandingPageOne from './LandingPageOne.vue'
 import LandingPageTwo from './LandingPageTwo.vue'
 import LandingPageThree from './LandingPageThree.vue'
-
+import PageHeader from './PageHeader.vue'
 
 export default {
   components: {
     LandingPageOne,
     LandingPageTwo,
-    LandingPageThree
+    LandingPageThree,
+    PageHeader
   },
   data() {
     return {
@@ -24,6 +25,9 @@ export default {
 </script>
 
 <template>
+  <div class="absolute top-0 z-10 w-full">
+    <PageHeader/>
+  </div>
   <full-page :options="options" id="fullpage" ref="fullpage">
     <div class="section">
       <LandingPageOne />
