@@ -1,13 +1,27 @@
 <script>
+
+  import { useUserStore} from '@/store/user'
+
   export default {
+    setup() {
+      const userStore = useUserStore()
+      return {userStore}
+    },
     props : {
       scrollHandle: Function
     },
     data() {
       return {
-        username: '',
-        password: '',
-        email:''
+        data: {
+          username:'',
+          email: '',
+          password: ''
+        }
+      }
+    },
+    methods : {
+      onSubmit () {
+        this.userStore.createNewUser(this.data)
       }
     }
   }
@@ -17,10 +31,10 @@
   <div class="mx-4">
     <div>
       <h1 class="text-white text-7xl"> Your Social Space in One Place</h1>
-      <h2 class="text-white text-2xl pt-6 " >Connect all your platforms into one shareable link.</h2>
+      <h2 class="text-white text-2xl pt-6 pb-12 " >Connect all your platforms into one shareable link.</h2>
     </div>
     
-    <div class="mt-6 px-4 py-6 bg-white rounded-lg">
+    <div class ="form-div">
       <h1 class="text-3xl pb-2"> Create an account </h1>
         <p class="text-base pb-6"> Already have an account? 
           <span class= "text-decoration-line: underline" @click="scrollHandle" > Log in </span>
@@ -28,7 +42,7 @@
       <div class="flex flex-col gap-2">
       <FormKit 
         type="text"
-        v-model="username"
+        v-model = "data.username"
         label="Username"
         :classes="{
           label: 'form-label',
@@ -38,8 +52,8 @@
       />
       <FormKit 
         type="text"
-        v-model="email"
         label="Email"
+        v-model="data.email"
         :classes="{
           label: 'form-label',
           inner: 'form-inner',
@@ -49,7 +63,7 @@
       <FormKit 
         label="Password"
         type="password"
-        v-model = "password"
+        v-model = "data.password"
         :classes="{
           label: 'form-label',
           inner: 'form-inner',
@@ -58,7 +72,7 @@
       />
       </div>
       <div class="text-right mt-4">
-        <button class="form-btn">
+        <button class="form-btn" @click="onSubmit">
           Submit
         </button>
       </div>
