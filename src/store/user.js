@@ -5,29 +5,10 @@ import router from "@/assets/router";
 
 
 
-const checkForUser = async () => {
-  let auth = Cookies.get('auth')
-
-  if(!auth) {
-    return null
-  }
-
-  const userInfo = await axios
-    .get('http://localhost:4040/user/get', {
-      headers: {
-        Authorization: `Bearer ${auth}`
-      }
-    })
-  
-    return userInfo.data.username    
-    
-  }
-
 export const useUserStore = defineStore({
   id: 'user',
   state: () => ({
-    user: checkForUser(),
-    isLoggedIn: false
+    user: Cookies.get('user'),
   }),
   actions: {
     async logUserIn (values) {
@@ -41,7 +22,7 @@ export const useUserStore = defineStore({
       }
       else {
         this.user = username.data.username
-        this.isLoggedIn = true;
+        Cookies.set('user', values.username, {expires: 7})
         Cookies.set('auth', username.data.auth, {expires: 7})
         router.push('/dashboard')
       }
@@ -58,10 +39,9 @@ export const useUserStore = defineStore({
 
       else {
         this.user = user.data.username;
-        this.isLoggedIn = true;
         Cookies.set('auth', user.data.auth, {expires: 7})
         router.push('/dashboard')
       }
-    }
+    },
   }
 })
