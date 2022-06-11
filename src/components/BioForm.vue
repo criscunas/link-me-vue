@@ -1,20 +1,28 @@
 <script>
+
+import { useUserStore } from '@/store/user'
+
 export default {
+  setup() {
+    const userStore = useUserStore()
+    return {userStore}
+  },
   props: {
-    bio: String
+    bio: String,
+    bioHandle: Function,
   },
   data () {
     return {
       newBio : ''
     }
-  }
+  },
 }
 </script>
 
 <template>
   <div class="px-2 py-4 mb-4 border rounded-md">
     <p class="text-center" v-if = "!bio"> Your bio here.</p>
-    <p v-else> {{bio}} </p>
+    <p class="text-center" v-else> {{bio}} </p>
   </div>
 
   <div class="text-right">
@@ -36,7 +44,7 @@ export default {
                 input: 'bio-input'
               }"
             />
-            <button class="form-btn mt-4">
+            <button class="form-btn mt-4" @click="bioHandle(newBio)">
               Submit
             </button>
           </div>
