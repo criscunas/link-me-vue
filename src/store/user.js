@@ -1,34 +1,32 @@
 import { defineStore } from "pinia";
 import Cookies from 'js-cookie';
-import axios from 'axios';
 import router from "@/assets/router";
-
-
+import { useStorage } from "@vueuse/core";
+import { HTTP } from "../../http-common";
 
 export const useUserStore = defineStore({
   id: 'user',
   state: () => ({
-    user: Cookies.get('user'),
+    user: useStorage('user', ""),
   }),
   actions: {
     async logUserIn (values) {
-      const username = await axios.post("http://localhost:4040/user/login", {
+      const userData = await HTTP.post('user/login', {
           username: values.username,
           password: values.password
         })
 
-      if(!username.data.auth) {
+      if(!userData.data.auth) {
         console.log('not found')
       }
       else {
-        this.user = username.data.username
-        Cookies.set('user', values.username, {expires: 7})
-        Cookies.set('auth', username.data.auth, {expires: 7})
+        this.user = userData.data.username
+        Cookies.set('auth', userData.data.auth, {expires: 7})
         router.push('/dashboard')
       }
     },
     async createNewUser(values) {
-      const user = await axios.post('http://localhost:4040/user/create', {
+      const user = await HTTP.post("user/create", {
         username: values.username,
         email: values.email, 
         password: values.password
@@ -43,5 +41,10 @@ export const useUserStore = defineStore({
         router.push('/dashboard')
       }
     },
+    async fetchUser () {
+      const res = await HTTP.get('user/get')
+      this.user.bio = res.data.user.bio
+      console.log(res.data)
+    }
   }
 })
