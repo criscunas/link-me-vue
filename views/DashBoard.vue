@@ -81,11 +81,11 @@
 
 <template>
   <UserHeader />
-  <div class="max-w-md m-auto tablet:flex justify-evenly tablet:max-w-4xl">
+  <div class="max-w-md m-auto tablet:flex justify-evenly tablet:max-w-5xl">
     <div>
-      <ImageForm :img-handle="uploadImage"/>
+      <ImageForm :img-handle="uploadImage" />
       <BioForm :bio = "bio" :bioHandle = "newBio"/>
-      <IconForm :addLinkHandle ="addLink" />
+      <IconForm :addLinkHandle ="addLink" :linksLength = "links.length" />
     </div>
     <div class ="py-8 tablet:py-10 pl-8">
       <RenderLinks :links = "links" :bio = "bio" />
