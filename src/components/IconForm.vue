@@ -1,32 +1,34 @@
 <script>
   export default {
+    props: {
+      addLinkHandle: Function,
+    },
     data () {
       return {
-        url: '',
-        site:'',
+        data : {
+          url: '',
+          site:'',
+          caption: '',
+        }
       }
     },
     methods: {
       addSrc (site) {
-        this.site = site
+        this.data.site = site
       },
-      submitLink(val) {
-        this.url = val
-
-        let linkObj = {
-          url: this.url,
-          website: this.site
-        }
-        console.log(linkObj)
-        this.url = ''
-        this.site = ''
-     }
+      submitForm() {
+        this.addLinkHandle(this.data)
+        this.data.url = ""
+        this.data.site = ""
+        this.data.caption = ""
+      }
     }
   }
 </script>
 
 <template>
-  <div class="flex justify-between pb-8">
+  <div class="py-8 tablet:py-10">
+  <div class="image-div">
     <div>
       <img @click="addSrc('Twitter')" class="form-img" src="../../public/images/twitter2.svg" />
     </div>
@@ -41,7 +43,7 @@
     </div>
   </div>
 
-  <div class="flex justify-between pb-8">
+  <div class="image-div">
     <div>
       <img @click="addSrc('Snapchat')" class="form-img" src="../../public/images/snapchat.svg" />
     </div>
@@ -56,8 +58,8 @@
     </div>
   </div>
 
-  <div class="flex justify-between pb-8">
-    <div>
+  <div class="image-div">
+    <div class="image-cont">
       <img @click="addSrc('Discord')" class="form-img" src="../../public/images/discord.svg" />
     </div>
     <div>
@@ -72,23 +74,34 @@
   </div>
 
   <div>
-    <p>Enter link for {{site}}</p>
+    <p class="dashboard-body">Enter link for <span class="font-semibold"> {{data.site}} </span> </p>
     <FormKit
-      type="url"
-      v-model="url"
+      type="text"
+      v-model="data.url"
       placeholder="https://www.yourlinkhere.com..."
        :classes="{
           inner: 'form-inner',
           input: 'form-input'
         }" 
     />
+    <p class="dashboard-body mt-4">Enter Caption</p>
+    <FormKit
+      type="text"
+      v-model="data.caption"
+      placeholder="Link Caption"
+       :classes="{
+          inner: 'form-inner',
+          input: 'form-input'
+        }" 
+    />
+    
     <div class="text-right">
-      <button class="form-btn mt-2" @click="submitLink(this.url)">
+      <button class="form-btn mt-2" @click="submitForm">
         Submit
       </button>
     </div>
   </div>
-
+</div>
 </template>
 
 <style>
@@ -97,4 +110,15 @@
     height: 3rem;
     cursor: pointer;
   }
+  .image-div {
+    display: flex;
+    justify-content: space-between;
+    padding-bottom: 2rem;
+  }
+  @media only screen and (min-width:768px) {
+    .image-div {
+      gap: 1.5rem;
+    }
+  }
+
 </style>

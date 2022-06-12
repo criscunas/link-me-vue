@@ -20,9 +20,10 @@ export default {
 </script>
 
 <template>
+
   <div class="px-2 py-4 mb-4 border rounded-md">
-    <p class="text-center" v-if = "!bio"> Your bio here.</p>
-    <p class="text-center" v-else> {{bio}} </p>
+    <p class="dashboard-body text-center" v-if = "!bio"> Your bio here.</p>
+    <p class="dashboard-body text-center" v-else> {{bio}} </p>
   </div>
 
   <div class="text-right">

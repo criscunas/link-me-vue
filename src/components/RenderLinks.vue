@@ -22,55 +22,56 @@ export default {
 
 <template>
 
-  <h1 class="text-xl font-semibold"> {{ username }}'s links</h1>
+  <h1 class="dashboard-header"> {{ username }}'s links</h1>
 
-  <p v-if="links.length == 0"> Add a link to get started </p>
-
-  <ul class="py-4">
+  <ul class="py-4 grid grid-cols-2 gap-x-8 gap-y-4">
     <li v-for="(link, index) in links" :key="index" class="list-none flex items-center py-2 gap-4">
-      <div v-if="link.site == 'github'">
+      <div v-if="link.site == 'Github'">
         <img class="icon" src="../../public/images/github.svg" />
       </div>
-      <div v-if="link.site == 'twitter'">
+      <div v-if="link.site == 'Twitter'">
         <img class="icon" src="../../public/images/twitter2.svg" />
       </div>
-      <div v-if="link.site == 'instagram'">
+      <div v-if="link.site == 'Instagram'">
         <img class="icon" src="../../public/images/instagram.svg" />
       </div>
-      <div v-if="link.site == 'spotify'">
+      <div v-if="link.site == 'Spotify'">
         <img class="icon" src="../../public/images/spotify.svg" />
       </div>
-      <div v-if="link.site == 'snapchat'">
+      <div v-if="link.site == 'Snapchat'">
         <img class="icon" src="../../public/images/snapchat.svg" />
       </div>
-      <div v-if="link.site == 'tumblr'">
+      <div v-if="link.site == 'Tumblr'">
         <img class="icon" src="../../public/images/tumblr.svg" />
       </div>
 
-      <div v-if="link.site == 'twitch'">
+      <div v-if="link.site == 'Twitch'">
         <img class="icon" src="../../public/images/twitch.svg" />
       </div>
 
-      <div v-if="link.site == 'soundcloud'">
+      <div v-if="link.site == 'Soundcloud'">
         <img class="icon" src="../../public/images/soundcloud.svg" />
       </div>
 
-      <div v-if="link.site == 'youtube'">
+      <div v-if="link.site == 'Youtube'">
         <img class="icon" src="../../public/images/youtube.svg" />
       </div>
-      <div v-if="link.site == 'linkedin'">
+      <div v-if="link.site == 'LinkedIn'">
         <img class="icon" src="../../public/images/linkedin.svg" />
       </div>
-      <div v-if="link.site == 'onlyfans'">
+      <div v-if="link.site == 'Onlyfans'">
         <img class="icon" src="../../public/images/onlyfans.svg" />
       </div>
 
-      <p> {{ link.url }} </p>
+      <div class="flex flex-col gap-1">
+        <p class="font-semibold"> {{link.caption}} </p>
+        <p> {{ link.url }} </p>
+      </div>
     </li>
   </ul>
 
   
-  <div class="mockup-phone w-[290px] flex justify-center flex-col">
+  <div class="mt-4 mockup-phone w-[290px] flex justify-center flex-col">
     <div class="camera"></div> 
     <div class="display">
     <div class="artboard artboard-demo phone-1">

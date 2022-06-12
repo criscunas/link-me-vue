@@ -13,17 +13,30 @@
       const userStore = useUserStore()
       return { userStore }
     },
-    async created () {
-      const user = await HTTP.get('user/get')
-      this.bio = user.data.user.bio
+    created () {
+      const getUser = async () => {
+        let user = await HTTP.get('user/get')
+        this.bio = user.data.user.bio
+      }
+
+      const getLinks = async () => {
+        let userLinks = await HTTP.get('link/get')
+        this.links = userLinks.data.links
+      }
+
+      Promise
+        .all([getUser(), getLinks()])
+        .catch((err) => {
+          console.log(err)
+        })
     },
     components: {
-    UserHeader,
-    IconForm,
-    ImageForm,
-    BioForm,
-    RenderLinks
-},
+      UserHeader,
+      IconForm,
+      ImageForm,
+      BioForm,
+      RenderLinks
+    },
     methods : {
       newBio(value) {
         HTTP.post('user/updateBio', {
@@ -36,6 +49,20 @@
           console.log(err)
         })
       },
+      addLink(value) {
+        HTTP.post('link/add', {
+          site: value.site,
+          url: value.url,
+          caption: value.caption,
+        })
+        .then((res) => {
+          this.links = res.data.links
+        })
+        .catch((err)=> {
+          console.log(err)
+        })
+        
+      },
       uploadImage(value) {
         console.log(value)
       }
@@ -45,11 +72,7 @@
         username: this.userStore.user,
         bio: '',
         avatar: '',
-        links: [
-          {site : "github", url:"github.com", img: "../../public/images/github2.svg"}, 
-          {site: "twitter" , url: "twitter.com", img : "../../public/images/twitter2.svg"},
-          {site: "instagram" , url: "instagram.com", img: "../../public/images/instagram.svg"}
-          ],
+        links: [],
       }
   }
 }
@@ -58,21 +81,13 @@
 
 <template>
   <UserHeader />
-  <div class="px-4 py-8">
-    <h1 class="text-xl font-semibold mb-6"> Hello, {{username}}  <span class="ml-2" >👋</span> </h1>
+  <div class="max-w-md m-auto tablet:flex justify-evenly tablet:max-w-4xl">
     <div>
       <ImageForm :img-handle="uploadImage"/>
-    </div>
-
-    <div class="my-6">
       <BioForm :bio = "bio" :bioHandle = "newBio"/>
+      <IconForm :addLinkHandle ="addLink" />
     </div>
-
-    <div>
-      <IconForm/>
-    </div>
-
-    <div>
+    <div class ="py-8 tablet:py-10 pl-8">
       <RenderLinks :links = "links" :bio = "bio" />
     </div>
   </div>
