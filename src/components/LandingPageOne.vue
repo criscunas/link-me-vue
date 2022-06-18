@@ -1,32 +1,3 @@
-<script>
-
-  import { useUserStore} from '@/store/user'
-
-  export default {
-    setup() {
-      const userStore = useUserStore()
-      return {userStore}
-    },
-    props : {
-      scrollHandle: Function
-    },
-    data() {
-      return {
-        data: {
-          username:'',
-          email: '',
-          password: ''
-        }
-      }
-    },
-    methods : {
-      onSubmit () {
-        this.userStore.createNewUser(this.data)
-      }
-    }
-  }
-</script>
-
 <template>
   <div class="mx-4">
     <div>
@@ -79,3 +50,34 @@
     </div>
   </div>
 </template>
+
+
+
+<script>
+
+  import { useUserStore} from '@/store/user'
+
+  export default {
+    setup() {
+      const userStore = useUserStore()
+      return {userStore}
+    },
+    props : {
+      scrollHandle: Function
+    },
+    data() {
+      return {
+        data: {
+          username:'',
+          email: '',
+          password: ''
+        }
+      }
+    },
+    methods : {
+      onSubmit () {
+        this.userStore.createNewUser(this.data)
+      }
+    }
+  }
+</script>

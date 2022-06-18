@@ -1,24 +1,3 @@
-<script>
-
-import { useUserStore } from '@/store/user'
-
-export default {
-  setup() {
-    const userStore = useUserStore()
-    return { userStore }
-  },
-  props: {
-    imgHandle: Function,
-  },
-  data() {
-    return {
-      file: [],
-      username: this.userStore.user,
-    }
-  }
-}
-</script>
-
 <template>
 
   <div class="py-6 tablet:py-10">
@@ -50,6 +29,30 @@ export default {
     </div>
   </div>
 </template>
+
+<script>
+
+import { useUserStore } from '@/store/user'
+
+export default {
+  setup() {
+    const userStore = useUserStore()
+    return { userStore }
+  },
+  props: {
+    imgHandle: Function,
+  },
+  data() {
+    return {
+      file: [],
+      username: this.userStore.user,
+    }
+  }
+}
+</script>
+
+
+
 
 <style>
 .formkit-no-files {

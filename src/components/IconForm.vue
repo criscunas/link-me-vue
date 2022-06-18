@@ -1,37 +1,3 @@
-<script>
-  export default {
-    props: {
-      addLinkHandle: Function,
-      linksLength: Number,
-    },
-    computed : {
-      isDisabled () {
-        return this.linksLength == 6
-      }
-    },
-    data () {
-      return {
-        data : {
-          url: '',
-          site:'',
-          caption: '',
-        }
-      }
-    },
-    methods: {
-      addSrc (site) {
-        this.data.site = site
-      },
-      submitForm() {
-        this.addLinkHandle(this.data)
-        this.data.url = ""
-        this.data.site = ""
-        this.data.caption = ""
-      }
-    }
-  }
-</script>
-
 <template>
   <div class="py-8 tablet:py-10">
   <div class="image-div">
@@ -109,6 +75,49 @@
   </div>
 </div>
 </template>
+
+<script>
+  
+  export default {
+    
+    props: {
+      addLinkHandle: Function,
+      linksLength: Number,
+    },
+    
+    computed : {
+      
+      isDisabled () {
+        return this.linksLength == 6
+      }
+    },
+
+    data () {
+      return {
+        data : {
+          url: '',
+          site:'',
+          caption: '',
+        }
+      }
+    },
+
+    methods: {
+    
+      addSrc (site) {
+        this.data.site = site
+      },
+      
+      submitForm() {
+        this.addLinkHandle(this.data)
+        this.data.url = ""
+        this.data.site = ""
+        this.data.caption = ""
+      }
+    }
+  }
+</script>
+
 
 <style>
   .form-img {

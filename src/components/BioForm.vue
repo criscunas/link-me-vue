@@ -1,23 +1,3 @@
-<script>
-
-import { useUserStore } from '@/store/user'
-
-export default {
-  setup() {
-    const userStore = useUserStore()
-    return {userStore}
-  },
-  props: {
-    bio: String,
-    bioHandle: Function,
-  },
-  data () {
-    return {
-      newBio : ''
-    }
-  },
-}
-</script>
 
 <template>
 
@@ -52,6 +32,28 @@ export default {
       </div>
   </div>
 </template>
+
+
+<script>
+import { useUserStore } from '@/store/user'
+
+export default {
+  setup() {
+    const userStore = useUserStore()
+    return {userStore}
+  },
+  props: {
+    bio: String,
+    bioHandle: Function,
+  },
+  data () {
+    return {
+      newBio : ''
+    }
+  },
+}
+</script>
+
 
 <style>
   .bio-input {
