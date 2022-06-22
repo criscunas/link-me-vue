@@ -1,69 +1,76 @@
 
 <template>
 
-  <div class="px-2 py-4 mb-4 border rounded-md">
-    <p class="dashboard-body text-center" v-if = "!bio"> Your bio here.</p>
-    <p class="dashboard-body text-center" v-else> {{bio}} </p>
-  </div>
+    <div class="px-2 py-4 mb-4 border rounded-md">
+        <p class="dashboard-body text-center" v-if="!bio"> Your bio here.</p>
+        <p class="dashboard-body text-center" v-else> {{ bio }} </p>
+    </div>
 
-  <div class="text-right">
-    <label for="bio-modal" class="dashboard-btn"> Edit Bio </label>    
-  </div>
+    <div class="text-right">
+        <label for="my-modal-4" class="form-btn modal-button">Edit Bio</label>
+    </div>
 
-    <input type="checkbox" id="bio-modal" class="modal-toggle" />
-    <div class="modal modal-bottom sm:modal-middle">
-      <div class="modal-box relative">
-        <label for="bio-modal" class="btn btn-sm btn-circle absolute right-2 top-2">✕</label>
-          <div class="mt-6">
-            <p class="main-text text-[1.2rem] text-black mb-4"> Update your Profile Bio</p>
-            <FormKit
-              type = "textarea"
-              v-model = "newBio"
-              rows = 3
-              :classes="{
-                inner: 'bio-inner',
-                input: 'bio-input'
-              }"
-            />
-            <button class="form-btn mt-4" @click="bioHandle(newBio)">
-              Submit
-            </button>
-          </div>
-      </div>
-  </div>
+    <input type="checkbox" id="my-modal-4" class="modal-toggle" />
+    <label for="my-modal-4" class="modal cursor-pointer">
+        <label class="modal-box relative" for="">
+            <div>
+                <p class="main-text text-[1.2rem] text-black mb-4"> Update your Profile Bio</p>
+                <FormKit type="textarea" v-model="newBio" rows=3 :classes="{
+                    inner: 'bio-inner',
+                    input: 'bio-input'
+                }" />
+                <div class="text-right">
+                    <button class="form-btn mt-4" @click="onSubmit(newBio)">
+                        Submit
+                    </button>
+                </div>
+            </div>
+        </label>
+    </label>
+
 </template>
 
 
 <script>
-import { useUserStore } from '@/store/user'
+
 
 export default {
-  setup() {
-    const userStore = useUserStore()
-    return {userStore}
-  },
-  props: {
-    bio: String,
-    bioHandle: Function,
-  },
-  data () {
-    return {
-      newBio : ''
+
+    data() {
+        return {
+            newBio: ''
+        }
+    },
+
+    methods: {
+        onSubmit(value) {
+
+            this.$axios.post('user/updateBio', {
+                bio: value
+            })
+                .then((res) => {
+                    this.bio = res.data.bio
+                })
+                .catch((err) => {
+                    console.log(err)
+                })
+
+        }
     }
-  },
 }
 </script>
 
 
 <style>
-  .bio-input {
+.bio-input {
     resize: none;
     width: 100%;
     height: max-content;
-  }
-  .bio-inner {
+}
+
+.bio-inner {
     border: 1px solid gray;
     border-radius: 8px;
     overflow: hidden;
-  }
+}
 </style>

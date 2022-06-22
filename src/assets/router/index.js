@@ -3,6 +3,7 @@ import DashBoard from '../../../views/DashBoard.vue';
 import LandingPages from '../../components/LandingPages.vue';
 import UserProfile from '../../../views/UserProfile.vue';
 
+
 const routes = [
   {
     path:"/",
@@ -13,10 +14,10 @@ const routes = [
     name: 'Dashboard',
     component : DashBoard
   }, {
-    path: '/profile',
+    path: '/:username',
     name: 'Profile',
     component: UserProfile
-  }
+  },
 ]
 
 const router = createRouter({

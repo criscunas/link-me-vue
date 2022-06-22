@@ -7,3 +7,8 @@ export const HTTP = axios.create({
     Authorization: 'Bearer ' + Cookies.get('auth')
   }
 })
+
+export const HTTPnoAuth = axios.create({
+  baseURL: 'http://localhost:4040/',
+  
+})

@@ -30,41 +30,44 @@ import { useUserStore } from '@/store/user'
 import { HTTP } from "../../http-common"
 
 export default {
+  
   setup() {
     const userStore = useUserStore()
     return {userStore}
   },
+
   data() {
     return {
-       data: {
-          username:'',
-          password: ''
-        }
+      data: {
+        username:'',
+        password: ''
+      }
     }
   },
+
   methods : {
     async onSubmit () {
       
-      const res = await HTTP.post('user/login', {
+      HTTP
+        .post('user/login', {
           username: this.data.username,
           password: this.data.password
-      })
-      
-      if(res.data.auth) {
-        
-        this.$cookies.set('auth', res.data.auth)
-        
-        this.userStore.$patch((state) => {
-          state.isAuth = true ,
-          state.user = this.data.username
         })
+        .then(({data}) => {
+          
+          this.$cookies.set('auth', data.auth)
+          
+          this.userStore.$patch((state) => {
+            state.isAuth = true ,
+            state.user = this.data.username
+          })
 
-        this.$router.push('/dashboard')
-      }
+          this.$router.push('/dashboard')
 
-      else {
-        console.log('Bad Login')
-      }
+        })
+        .catch((error) => {
+          console.log(error)
+        })
 
     }
   }

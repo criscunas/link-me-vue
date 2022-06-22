@@ -1,6 +1,6 @@
 <template>
 
-  <div class="max-w-md m-auto tablet:flex justify-evenly tablet:max-w-5xl" :style="{backgroundColor: userStyles.bg_color}">
+  <div class="max-w-md m-auto tablet:flex justify-evenly tablet:max-w-5xl" :style="{backgroundColor: userStyles.backgroundColor}">
     
     <div class="my-8">
 
@@ -13,14 +13,15 @@
       
         <h1 
           class="font-semibold text-center mt-4"  
-          :style = "{color: userStyles.username_color}" 
+          :style = "{color: userStyles.usernameColor}" 
         > 
           @{{username}}
+          {{this.$router.query}}
         </h1>
 
         <h1 
           class="font-semibold text-center mt-4"  
-          :style = "{color: userStyles.username_color}" 
+          :style = "{color: userStyles.bioColor}" 
         > 
           {{bio}}
         </h1> 
@@ -34,7 +35,7 @@
             <a 
               class="font-semibold"
               :href="link.url"
-              :style="{color: userStyles.text_color}"
+              :style="{color: userStyles.textColor}"
             > 
             {{link.caption}} </a>
           </div>
@@ -49,26 +50,16 @@
 
 <script>
 
-  import { useUserStore } from '@/store/user';
-  import {HTTP} from '../http-common';
+  import { HTTPnoAuth } from '../http-common';
 
   export default {
-
-    setup() {
-      const userStore = useUserStore()
-      return { userStore }
-    },
 
     data () {
       return {
         links : [],
-        username: this.userStore.user,
+        username: this.$route.params.username,
         userStyles : {}, 
         bio: '',
-        backgroundColor: '' ,
-        usernameColor: '',
-        textColor: '',
-        bioColor: ''
       }
     },
 
@@ -77,40 +68,20 @@
     },
 
     methods : {
-
       fetchUser() {
-
-        const getBio = async () => {
-          let user = await HTTP.get('user/get')
-          this.bio = user.data.user.bio
-        }
-
-        const getLinks = async () => {
-          let userLinks = await HTTP.get('link/get')
-          this.links = userLinks.data.links
-        }
-
-        const getStyles = async () => {
-          
-          let userStyles = await HTTP.get('profile/styles')
-
-          const {data} = userStyles
-
-          this.userStyles = data
-
-          this.backgroundColor = data.bg_color
-          this.usernameColor = data.username_color
-          this.textColor = data.text_color
-          this.bioColor = data.bio_color
-          
-        }
-
-        Promise
-          .all([getBio(), getLinks(), getStyles()])
+        
+        HTTPnoAuth
+          .get("user/get/" + this.username)
+          .then(({data}) => {
+            this.links = data.links
+            this.bio = data.bio,
+            this.userStyles = data.styles
+          })
           .catch((err) => {
             console.log(err)
           })
-        },
+
+      },
     }
 
   }
