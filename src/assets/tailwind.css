@@ -11,7 +11,7 @@
     @apply text-black text-lg;
   }
   .form-inner {
-    @apply max-w-md border border-gray-400 rounded-lg mb-1 overflow-hidden focus-within:border-blue-500 mt-2
+    @apply border border-gray-400 rounded-lg mb-1 overflow-hidden focus-within:border-blue-500 mt-2
   }
   .form-input {
     @apply w-full px-2 h-8 border-none text-base text-gray-700 rounded-lg placeholder-gray-400 resize-none
@@ -27,5 +27,11 @@
   }
   .dashboard-btn {
     @apply bg-[#3F88C5] rounded-[25px] px-[1rem] py-[0.5rem] text-white font-light text-base
+  }
+  .dashboard-header {
+    @apply text-xl text-black font-sans font-semibold tablet:text-2xl
+  }
+  .dashboard-body {
+    @apply text-base text-black font-sans font-semibold
   }
 }

@@ -5,12 +5,21 @@ import VueFullPage from 'vue-fullpage.js'
 import 'vue-fullpage.js/dist/style.css'
 import {plugin,defaultConfig} from '@formkit/vue'
 import router from './assets/router'
-import { createPinia } from 'pinia'
-import VueCookies from 'vue-cookies'
+import axios from 'axios'
+import store from './store'
 
 const app = createApp(App)
-app.use(VueCookies, {expire: '7d'})
-app.use(createPinia())
+
+const axiosInstance = axios.create({
+    baseURL: 'http://localhost:3050',
+    headers : {
+        'Content-Type': 'application/json'
+    }
+})
+
+app.config.globalProperties.$axios = axiosInstance;
+
+app.use(store)
 app.use(router)
 app.use(VueFullPage)
 app.use(plugin,defaultConfig)

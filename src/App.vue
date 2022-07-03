@@ -1,14 +1,29 @@
-<script>
-  export default {
-    name: 'App',
-  }
-</script>
-
 <template>
-    <router-view/>
+    <router-view />
 </template>
 
-<style>
-</style>
+<script>
+import { mapGetters } from 'vuex'
+
+export default {
+    created() {
+        if (this.isAuthenticated) {
+            this.bootstrapAxios()
+        }
+    },
+
+    computed: {
+        ...mapGetters([
+            'tokens',
+            'isAuthenticated',
+        ]),
+    },
 
 
+    methods: {
+        bootstrapAxios() {
+            this.$axios.defaults.headers.Authorization = `Bearer ${this.tokens.core}`
+        },
+    }
+}
+</script>
