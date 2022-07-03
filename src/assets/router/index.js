@@ -1,28 +1,29 @@
 import { createRouter, createWebHistory } from "vue-router";
-import DashBoard from '../../../views/DashBoard.vue';
-import LandingPages from '../../components/LandingPages.vue';
-import UserProfile from '../../../views/UserProfile.vue';
-
+import DashboardPage from "../../../src/pages/DashboardPage.vue"
+import ProfilePage from "../../../src/pages/ProfilePage.vue";
+import Landing from "../../../views/Landing.vue";
 
 const routes = [
-  {
-    path:"/",
-    name: 'Home',
-    component: LandingPages
-  }, {
-    path: '/dashboard',
-    name: 'Dashboard',
-    component : DashBoard
-  }, {
-    path: '/:username',
-    name: 'Profile',
-    component: UserProfile
-  },
-]
+    {
+        path: "/",
+        name: "Home",
+        component: Landing,
+    },
+    {
+        path: "/dashboard",
+        name: "Dashboard",
+        component: DashboardPage,
+    },
+    {
+        path: "/:username",
+        name: "Profile",
+        component: ProfilePage,
+    },
+];
 
 const router = createRouter({
-  history: createWebHistory(process.env.BASE_URL),
-  routes
-})
+    history: createWebHistory(process.env.BASE_URL),
+    routes,
+});
 
-export default router
+export default router;

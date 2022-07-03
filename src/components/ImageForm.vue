@@ -1,7 +1,7 @@
 <template>
 
-    <div class="py-6 tablet:py-10">
-        <h1 class="dashboard-header pb-6"> Hello {{ username }} <span class="ml-2">👋</span> </h1>
+    <div class="pb-6 tablet:pb-10">
+        <h1 class="dashboard-header pb-6"> Hello  <span class="ml-2">👋</span> </h1>
         <div class="flex justify-center ">
             <div class="avatar">
                 <div class="w-24 mask mask-squircle">
@@ -32,18 +32,22 @@
 
 <script>
 
-import { useUserStore } from '@/store/user'
+
 
 export default {
-    setup() {
-        const userStore = useUserStore()
-        return { userStore }
-    },
 
     data() {
         return {
             file: [],
-            username: this.userStore.user,
+        }
+    },
+
+    props: {
+        username: {
+            type: String,
+        },
+        bio : {
+            type: String,
         }
     }
 }

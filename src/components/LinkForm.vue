@@ -1,7 +1,7 @@
 <template>
-    <div class="py-8 tablet:py-10">
+    <div class="py-6 tablet:py-8">
 
-        <h1 class="main-text text-black" >Select a platform.</h1>
+        <h1 class="main-text text-black pb-2" >Select a platform.</h1>
         <div class="image-div mt-4">
             <div>
                 <img @click="addSrc('twitter')" class="form-img" src="../../public/images/twitter2.svg" />
@@ -80,13 +80,13 @@ export default {
         return {
             values: {
                 url: '',
-                site: 'twitter',
+                site: '',
                 caption: '',
             }
         }
     },
 
-    emits: ['submit'],
+    emits: ['on-submit'],
 
     methods: {
 
@@ -99,16 +99,18 @@ export default {
             let data;
 
             data = {
-                url: this.values.url,
-                site: this.values.site,
-                caption: this.values.caption
+                link : {
+                    url: this.values.url,
+                    site: this.values.site,
+                    caption: this.values.caption
+                }
             }
 
             this.values.url = ""
             this.values.site = ""
             this.values.caption = ""
 
-            this.$emit('submit', data)
+            this.$emit('on-submit', data)
         }
     }
 }
