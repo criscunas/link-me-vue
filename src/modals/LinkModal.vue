@@ -2,13 +2,16 @@
 
     <div v-show="modalOpen" class="fixed inset-0 bg-slate-500 bg-opacity-30 z-50 transition-opacity" aria-hidden="true"></div>
 
-    <div v-show="modalOpen" :id="id"
+    <div v-show="modalOpen"
         class="fixed inset-0 z-50 flex items-center justify-center"
         role="dialog" aria-modal="true">
         <div class="bg-white rounded shadow-lg overflow-auto max-w-lg w-full max-h-full">
-            <div class="px-5 py-3 border-b ">
+            <div class="px-5 py-3">
                 <div class="text-right">
-                    <button class="text-black" @click.stop="$emit('close-modal')">
+                    <button
+                        class="text-black"
+                        @click.stop="$emit('close-modal')"
+                    >
                         X
                     </button>
                 </div>
@@ -24,9 +27,6 @@
 export default {
     name: 'LinkModal',
     props: {
-        id: {
-            type: String,
-        },
         modalOpen: {
             type: Boolean,
         },

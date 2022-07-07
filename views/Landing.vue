@@ -54,7 +54,7 @@ export default {
         login({ user }) {
             this.$axios.post('/user/login', {
                 username: user.username,
-                hashed_password: user.password,
+                password: user.password,
             })
                 .then(({ data }) => {
                     this.$store.commit('auth:login', decodeURIComponent(data.auth))

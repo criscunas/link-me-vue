@@ -1,16 +1,20 @@
 <template>
     <LinkModal :title="modal.type" :modalOpen="modal.isOpen" @close-modal="modal.isOpen = false">
 
-        <div class="px-5 py-4">
+        <div class="px-5 py-2">
             <div class="text-sm">
                 <div class="mb-3">
                     <div v-if="modal.type !== 'delete'" class="my-4">
                         <label class="block text-sm font-medium mb-1 mx-1" for="default">Link Name</label>
-                        <FormKit type="text" v-model="values.name" placeholder="Link Caption" :classes="{
-                            inner: 'form-inner',
-                            input: 'form-input'
-                        }" />
-
+                        <FormKit
+                            type="text"
+                            v-model="values.name"
+                            placeholder="Link Caption"
+                            :classes="{
+                                inner: 'form-inner',
+                                input: 'form-input'
+                            }"
+                        />
                     </div>
                     <div v-if="modal.type === 'delete'" class="my-4">
                         <p>Are you sure you want to delete this?</p>
@@ -19,20 +23,27 @@
             </div>
         </div>
 
-        <div class="px-5 py-4 border-t">
+        <div class="px-5 py-4">
             <div class="flex flex-wrap justify-end space-x-2">
-                <button class="btn-sm border-slate-200 hover:border-slate-300 text-slate-600"
-                    @click='modal.isOpen = false'>
+                <button
+                    class="btn-sm form-btn bg-slate-500 text-white"
+                    @click='modal.isOpen = false'
+                >
                     Cancel
                 </button>
 
-                <button v-if="this.modal.type !== 'delete'" class="btn-sm form-btn"
-                    @click="onModalSubmit(this.modal.type, this.modal.link)">
+                <button
+                    v-if="this.modal.type !== 'delete'"
+                    class="btn-sm form-btn"
+                    @click="onModalSubmit(this.modal.type, this.modal.link)"
+                >
                     Update
                 </button>
 
-                <button v-else class="btn-sm text-white bg-rose-500"
-                    @click="onModalSubmit(this.modal.type, this.modal.link)">
+                <button
+                    v-else class="btn-sm text-white bg-rose-500"
+                    @click="onModalSubmit(this.modal.type, this.modal.link)"
+                >
                     Delete
                 </button>
             </div>
@@ -49,8 +60,15 @@
 
             <!-- User display & link form. -->
             <div>
-                <UserDisplay :username="user.username" :bio="user.bio" @bio-update="bioSubmit" />
-                <LinkForm :links="links" @on-submit="addLink" />
+                <UserDisplay
+                    :username="user.username"
+                    :bio="user.bio"
+                    @bio-update="bioSubmit"
+                />
+                <LinkForm
+                    :links="links"
+                    @on-submit="addLink"
+                />
             </div>
 
             <div class="ml-12">
@@ -63,7 +81,7 @@
 
                 <!-- Rendering links. -->
                 <ul class="py-4 flex flex-col tablet:grid grid-cols-2 gap-x-8 gap-y-4">
-                    <li v-for="(link, index) in links" :key="index" class="list-none">
+                    <li v-for="(link, index) in user.links" :key="index" class="list-none">
                         <div tabindex="0" class="collapse collapse-plus border border-base-300 bg-base-100 rounded-box">
                             <div class="collapse-title flex">
                                 <div class="flex items-center gap-6">
@@ -74,10 +92,25 @@
 
                             <div class="collapse-content">
                                 <p class="text-base text-center font-semibold"> {{ link.url }} </p>
-                                <div class="flex justify-evenly px-2 gap-6 mt-2">
-                                    <div @click="openLinkModal('editUrl', link)">Edit Url</div>
-                                    <div @click="openLinkModal('editCaption', link)">Edit Caption </div>
-                                    <div @click="openLinkModal('delete', link)">Delete</div>
+                                <div class="flex justify-evenly px-2 gap-6 mt-4">
+                                    <div
+                                        class="modal-btn"
+                                        @click="openLinkModal('editUrl', link)"
+                                    >
+                                        Edit Url
+                                    </div>
+                                    <div
+                                        class="modal-btn"
+                                        @click="openLinkModal('editCaption', link)"
+                                    >
+                                        Edit Caption
+                                    </div>
+                                    <div
+                                        class="modal-btn bg-red-500"
+                                        @click="openLinkModal('delete', link)"
+                                    >
+                                        Delete
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -85,7 +118,12 @@
                 </ul>
 
                 <div>
-                    <ProfilePreview :user="user" :styles = "this.styles" :links="this.links" @on-submit="addStyles" />
+                    <ProfilePreview
+                        :user="user"
+                        :styles = "this.styles"
+                        :links="user.links"
+                        @on-submit="addStyles"
+                    />
                 </div>
             </div>
         </div>
@@ -125,25 +163,20 @@ export default {
                 name: ""
             },
 
-            styles: {
-                bg_color: '#FFFFFF',
-                username_color: '#000000',
-                bio_color: '#000000',
-                caption_color: '#000000',
+            styles : {
+                type: Object
             },
 
             user: {
                 type: Object,
+                links: Object,
             },
-
 
             modal: {
                 isOpen: false,
                 type: 'editUrl',
                 link: null,
             },
-
-
         }
     },
 
@@ -151,6 +184,7 @@ export default {
 
     created() {
         this.getUser()
+        this.getStyles()
     },
 
     components: {
@@ -166,7 +200,31 @@ export default {
         getUser() {
             this.$axios.get('/user/get')
                 .then(({ data }) => {
-                    this.user = data.user[0]
+                    this.user = data.user
+                    this.links = data.user.links
+                })
+                .catch((error) => {
+                    console.log(error)
+                })
+        },
+
+        getStyles() {
+            this.$axios.get('/profile/styles')
+                .then(({data}) => {
+                    this.styles = data.styles
+                })
+                .catch((err) => {
+                    console.log(err)
+                })
+        },
+
+        addLink({ link }) {
+            this.$axios.post('/link/add', {
+                site: link.site,
+                url: link.url,
+                caption: link.caption,
+            })
+                .then(({ data }) => {
                     this.links = data.links
                 })
                 .catch((error) => {
@@ -174,26 +232,12 @@ export default {
                 })
         },
 
-        addLink({ link }) {
-            this.$axios.post('/link/post', {
-                site: link.site,
-                url: link.url,
-                caption: link.caption,
-            })
-                .then(({ data }) => {
-                    this.links = data.payload.links
-                })
-                .catch((error) => {
-                    console.log(error)
-                })
-        },
-
         bioSubmit({ bio }) {
-            this.$axios.post('/user/bio', {
+            this.$axios.post('/user/updateBio', {
                 bio: bio
             })
                 .then(({ data }) => {
-                    this.user.bio = data.payload.bio
+                    this.user.bio = data.bio
                 })
                 .catch((error) => {
                     console.log(error)

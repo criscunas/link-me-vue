@@ -11,7 +11,7 @@ import store from './store'
 const app = createApp(App)
 
 const axiosInstance = axios.create({
-    baseURL: 'http://localhost:3050',
+    baseURL: 'http://localhost:4040',
     headers : {
         'Content-Type': 'application/json'
     }
