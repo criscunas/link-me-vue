@@ -1,39 +1,19 @@
 <template>
 
+    <!-- v-select options for editing profile  -->
     <div class="mt-4">
-        <h1 class="dashboard-header tablet:"> Customize Profile </h1>
-        <div class="grid grid-cols-2 gap-y-4 gap-x-4">
+        <h1 class="dashboard-header mb-4"> Customize Profile </h1>
+        <v-select
+            v-model="color.type"
+            :options="options"
+            :reduce="label => label.name"
+            label="label">
+        </v-select>
+        <div class="mt-4 flex items-center gap-4 justify-center">
+            <p class="font-semibold"> Select color </p>
             <FormKit
                 type="color"
-                v-model="bg_color"
-                label="Background color"
-                :classes="{
-                    label: 'color-label', inner: 'color-inner'
-                }"
-            />
-            <FormKit
-                type="color"
-                v-model="text_color"
-                label="Caption color"
-                :classes="{
-                    label: 'color-label', inner: 'color-inner'
-                }"
-            />
-            <FormKit
-                type="color"
-                v-model="username_color"
-                label="Username color"
-                :classes="{
-                    label: 'color-label', inner: 'color-inner'
-                }"
-            />
-            <FormKit
-                type="color"
-                v-model="bio_color"
-                label="Bio color"
-                :classes="{
-                    label: 'color-label', inner: 'color-inner'
-                }"
+                v-model="color.value"
             />
         </div>
         <div class="text-right mt-2">
@@ -44,6 +24,7 @@
     </div>
 
 
+    <!-- Profile Preview  -->
     <div>
         <h1 class="dashboard-header mb-4"> {{ user.username }}'s profile </h1>
         <router-link to="/Profile">
@@ -54,7 +35,7 @@
             <div class="display flex justify-center">
                 <div class="artboard artboard-demo phone-1" :style="{backgroundColor: styles.bg_color}"  >
                     <div class="avatar">
-                        <div class="w-24 mask mask-squircle">
+                        <div class="w-24 mask mask-squircle mt-4">
                             <img src="../../public/images/avataaars.png" />
                         </div>
                     </div>
@@ -69,7 +50,7 @@
                             {{ user.bio }}
                     </p>
                     <ul class="mt-6">
-                        <li v-for="(link, index) in user.links" :key="index"
+                        <li v-for="(link, index) in links" :key="index"
                             class="list-none flex items-center py-2 gap-4">
                             <div class="avatar">
                                 <div class="w-10 rounded-full">
@@ -77,7 +58,7 @@
                                 </div>
                             </div>
                             <p
-                                :style="{color: styles.caption_color}"
+                                :style="{color: styles.text_color}"
                                 class="font-semibold">
                                     {{ link.caption }}
                             </p>
@@ -98,10 +79,17 @@ export default {
 
     data() {
         return {
-            bg_color: '',
-            text_color: '',
-            username_color: '',
-            bio_color: '',
+            color : {
+                type : 'bg_color',
+                value: ''
+            },
+
+            options : [
+                {name: 'bg_color', label: 'Background Color'},
+                {name: 'username_color', label: 'Username Color'},
+                {name: 'text_color', label: 'Text Color'},
+                {name: 'bio_color', label: 'Biography Color'}
+            ]
         }
     },
 
@@ -109,7 +97,10 @@ export default {
 
         user: {
             type: Object,
-            links: Object,
+        },
+
+        links : {
+            type : Object,
         },
 
         styles :{
@@ -125,16 +116,18 @@ export default {
             let data;
 
             data = {
-                styles : {
-                    bg_color: this.bg_color,
-                    caption_color: this.text_color,
-                    username_color: this.username_color,
-                    bio_color: this.bio_color
+                style : {
+                    type: this.color.type,
+                    color: this.color.value
                 }
             }
 
             this.$emit('on-submit', data)
-        }
+        },
+
+        setStyleType(type) {
+            this.color.type = type
+        },
     }
 }
 </script>

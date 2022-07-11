@@ -10,6 +10,7 @@
             </div>
 
 
+            <!-- Image form modal, not yet implemented. Would just use cloudinary. -->
             <label for="img-modal" class="text-xl font-bold self-end ml-2 cursor-pointer "> + </label>
             <input type="checkbox" id="img-modal" class="modal-toggle" />
             <label for="img-modal" class="modal cursor-pointer">
@@ -109,20 +110,4 @@ export default {
     }
 }
 
-
 </script>
-
-
-<style>
-.bio-input {
-    resize: none;
-    width: 100%;
-    height: max-content;
-}
-
-.bio-inner {
-    border: 1px solid gray;
-    border-radius: 8px;
-    overflow: hidden;
-}
-</style>

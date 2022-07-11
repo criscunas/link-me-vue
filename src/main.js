@@ -1,17 +1,20 @@
 import { createApp } from 'vue'
 import App from './App.vue'
-import './assets/tailwind.css'
 import VueFullPage from 'vue-fullpage.js'
-import 'vue-fullpage.js/dist/style.css'
+import VueCookies from 'vue-cookies';
 import {plugin,defaultConfig} from '@formkit/vue'
 import router from './assets/router'
 import axios from 'axios'
-import store from './store'
+import vSelect from 'vue-select'
+import 'vue-select/dist/vue-select.css';
+import 'vue-fullpage.js/dist/style.css'
+import './assets/tailwind.css'
+
 
 const app = createApp(App)
 
 const axiosInstance = axios.create({
-    baseURL: 'http://localhost:4040',
+    baseURL: process.env.VUE_API,
     headers : {
         'Content-Type': 'application/json'
     }
@@ -19,7 +22,8 @@ const axiosInstance = axios.create({
 
 app.config.globalProperties.$axios = axiosInstance;
 
-app.use(store)
+app.component('v-select', vSelect)
+app.use(VueCookies)
 app.use(router)
 app.use(VueFullPage)
 app.use(plugin,defaultConfig)

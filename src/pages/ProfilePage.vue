@@ -1,10 +1,11 @@
 <template>
 
+    <!-- Profile page with user selected styles.  -->
     <div
         :style="{backgroundColor: styles.bg_color}"
-        class="max-w-md m-auto tablet:flex justify-evenly tablet:max-w-5xl">
+        class="max-w-5xl h-[100vh] m-auto tablet:flex justify-evenly tablet:max-w-5xl">
 
-        <div class="my-8">
+        <div class="py-8">
 
             <div class="flex flex-col text-center">
                 <div class="avatar justify-center">
@@ -39,7 +40,8 @@
                             <a
                                 :style="{color: styles.text_color}"
                                 class="font-semibold"
-                                :href="link.url"
+                                :href="'//' + link.url"
+                                target = "_blank"
                             >
                                 {{ link.caption }}
                             </a>
@@ -77,28 +79,20 @@ export default {
 
     created() {
         this.fetchUser()
-        this.getStyles()
     },
 
     methods: {
+        // Would change this api route to be accesible for anyone.
         fetchUser() {
             this.$axios.get('/user/get')
                 .then(({ data }) => {
                     this.user = data.user
+                    this.styles = data.user.styles
                 })
                 .catch((error) => {
                     console.log(error)
                 })
         },
-        getStyles() {
-            this.$axios.get('/profile/styles')
-                .then(({ data }) => {
-                    this.styles = data.styles
-                })
-                .catch((err) => {
-                    console.log(err)
-                })
-        }
     }
 
 }
