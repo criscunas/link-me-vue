@@ -1,24 +1,17 @@
 # link-me
 
-## Project setup
-```
-npm install
-```
+Client side for [https://github.com/criscunas/link-me-api](link-me-api).
 
-### Compiles and hot-reloads for development
-```
-npm run serve
-```
+#### A Linktree clone that allows users to 
+* Create an account/Login into existing.
+* Post & update thier user biography.
+* Add links to thier profile account with a url & caption. 
+* Edit link urls/captions or delete entirely.
+* Select custom styling for thier profile page. Background color, text , etc.
+* Creates a custom profile page that with selected styles & links.
 
-### Compiles and minifies for production
-```
-npm run build
-```
+#### Built with 
+* Vue.js, Vue Router, vue-cookies, vue-fullpage, vue-select.
+* Tailwind CSS, daisyUI.
 
-### Lints and fixes files
-```
-npm run lint
-```
 
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
