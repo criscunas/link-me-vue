@@ -1,6 +1,7 @@
 <template>
-    <div class="py-6 tablet:py-8">
 
+    <!-- Link form with addSrc method that attaches value to it -->
+    <div class="py-4 tablet:py-6">
         <h1 class="main-text text-black pb-2" >Select a platform.</h1>
         <div class="image-div mt-4">
             <div>

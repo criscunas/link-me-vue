@@ -52,9 +52,6 @@ export default {
                 }
             }
 
-            this.values.username = ""
-            this.values.password = ""
-
             this.$emit('login-user', data)
 
         }

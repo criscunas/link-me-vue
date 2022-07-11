@@ -1,6 +1,11 @@
 <template>
     <div class="absolute top-0 z-10 w-full">
-        <PageHeader />
+    <header class="px-8 py-4">
+        <nav class="flex justify-between">
+            <h1 class="header-text text-white">link.me</h1>
+            <p class="header-text text-base text-white"> About </p>
+        </nav>
+    </header>
     </div>
     <full-page :options="options" ref="fullpage">
         <div class="section">
@@ -21,7 +26,6 @@
 import LandingLogin from '../src/subpages/LandingLogin.vue'
 import LandingSignup from '../src/subpages/LandingSignup.vue'
 import LandingAbout from '../src/subpages/LandingAbout.vue'
-import PageHeader from '../src/components/PageHeader.vue'
 import { nextTick } from 'vue'
 
 export default {
@@ -29,10 +33,15 @@ export default {
     name: 'LandingView',
 
     components: {
-        PageHeader,
         LandingSignup,
         LandingLogin,
         LandingAbout,
+    },
+
+    created() {
+        if(this.$cookies.isKey('auth')) {
+            this.$router.push('/dashboard')
+        }
     },
 
     data() {
@@ -54,11 +63,10 @@ export default {
         login({ user }) {
             this.$axios.post('/user/login', {
                 username: user.username,
-                hashed_password: user.password,
+                password: user.password,
             })
                 .then(({ data }) => {
-                    this.$store.commit('auth:login', decodeURIComponent(data.auth))
-                    this.$store.commit('user:login', data.username)
+                    this.$cookies.set("auth", decodeURIComponent(data.auth))
 
                     nextTick(() => {
                         this.$router.push({ name: 'Dashboard' })
@@ -71,13 +79,12 @@ export default {
         },
         register({ user }) {
 
-            this.$axios.post('/user/register', {
+            this.$axios.post('/user/create', {
                 username: user.username,
-                email: user.email,
-                hashed_password: user.password,
+                password: user.password,
             }).then(({ data }) => {
-                this.$store.commit('auth:login', decodeURIComponent(data.auth))
-                this.$store.commit('user:login', data.username)
+
+                this.$cookies.set("auth", decodeURIComponent(data.auth))
 
                 nextTick(() => {
                     this.$router.push({ name: 'Dashboard' })

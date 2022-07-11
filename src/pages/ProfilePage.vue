@@ -1,8 +1,11 @@
 <template>
 
-    <div class="max-w-md m-auto tablet:flex justify-evenly tablet:max-w-5xl">
+    <!-- Profile page with user selected styles.  -->
+    <div
+        :style="{backgroundColor: styles.bg_color}"
+        class="max-w-5xl h-[100vh] m-auto tablet:flex justify-evenly tablet:max-w-5xl">
 
-        <div class="my-8">
+        <div class="py-8">
 
             <div class="flex flex-col text-center">
                 <div class="avatar justify-center">
@@ -11,17 +14,22 @@
                     </div>
                 </div>
 
-                <h1 class="font-semibold text-center text-xl mt-4">
+                <h1
+                    :style="{color: styles.username_color}"
+                    class="font-semibold text-center text-xl mt-4"
+                >
                     @{{ user.username }}
-                    {{ this.$router.query }}
                 </h1>
 
-                <h1 class="font-semibold text-center text-lg my-4">
+                <h1
+                    :style="{color: styles.bio_color}"
+                    class="font-semibold text-center text-lg my-4"
+                >
                     {{ user.bio }}
                 </h1>
 
 
-                <div v-for="(link, index) in links" :key="index" class="flex flex-col justify-center">
+                <div v-for="(link, index) in user.links" :key="index" class="flex flex-col justify-center">
                     <div class="my-4">
                         <div class="avatar">
                             <div class="w-24 rounded">
@@ -29,8 +37,14 @@
                             </div>
                         </div>
                         <div>
-                            <a class="font-semibold" :href="link.url">
-                                {{ link.caption }} </a>
+                            <a
+                                :style="{color: styles.text_color}"
+                                class="font-semibold"
+                                :href="'//' + link.url"
+                                target = "_blank"
+                            >
+                                {{ link.caption }}
+                            </a>
                         </div>
                     </div>
                 </div>
@@ -49,9 +63,17 @@ export default {
 
     data() {
         return {
-            links: [],
-            userStyles: {},
-            user: [],
+            styles : {
+                bg_color: String,
+                text_color: String,
+                bio_color: String,
+                username_color:String,
+            },
+            user: {
+                username: String,
+                bio: String,
+                links: Object,
+            }
         }
     },
 
@@ -60,16 +82,16 @@ export default {
     },
 
     methods: {
+        // Would change this api route to be accesible for anyone.
         fetchUser() {
             this.$axios.get('/user/get')
                 .then(({ data }) => {
-                    this.user = data.user[0]
-                    this.links = data.links
+                    this.user = data.user
+                    this.styles = data.user.styles
                 })
                 .catch((error) => {
                     console.log(error)
                 })
-
         },
     }
 

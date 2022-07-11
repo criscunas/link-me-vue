@@ -16,11 +16,6 @@
                     inner: 'form-inner',
                     input: 'form-input'
                 }" />
-                <FormKit type="text" label="Email" v-model="values.email" :classes="{
-                    label: 'form-label',
-                    inner: 'form-inner',
-                    input: 'form-input'
-                }" />
                 <FormKit label="Password" type="password" v-model="values.password" :classes="{
                     label: 'form-label',
                     inner: 'form-inner',
@@ -54,7 +49,6 @@ export default {
         return {
             values: {
                 username: '',
-                email: '',
                 password: ''
             }
         }
@@ -68,17 +62,13 @@ export default {
                 user : {
 
                 username: this.values.username,
-                email: this.values.email,
                 password: this.values.password
                 }
             }
+            this.$emit('register-user', data)
 
             this.values.username = ""
-            this.values.email = ""
             this.values.password = ""
-
-
-            this.$emit('register-user', data)
         }
     }
 }
