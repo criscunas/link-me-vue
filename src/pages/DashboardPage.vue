@@ -90,7 +90,12 @@
             </ul>
 
             <div>
-                <ProfilePreview :user="user" :styles="styles" :links="links" @on-submit="addStyles" />
+                <ProfilePreview 
+                    :user="user" 
+                    :styles="styles" 
+                    :links="links" 
+                    @on-submit="addStyles"
+                />
             </div>
         </div>
     </div>
@@ -104,17 +109,10 @@ import UserDisplay from '@/components/UserDisplay.vue'
 import LinkModal from '@/modals/LinkModal.vue'
 import LinkForm from '@/components/LinkForm.vue';
 import ProfilePreview from '@/components/ProfilePreview.vue';
-import { mapGetters } from 'vuex';
 
 export default {
 
     name: 'DashboardPage',
-
-    computed: {
-        ...mapGetters([
-            'isAuthenticated',
-        ])
-    },
 
     data() {
         return {
